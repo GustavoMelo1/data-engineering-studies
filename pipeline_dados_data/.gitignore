@@ -1,0 +1,18 @@
+# Dados
+pipeline_dados/data/raw/
+pipeline_dados/data/processed/
+
+# Variáveis de ambiente
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# VSCode
+.vscode/
