@@ -6,5 +6,5 @@ Studies for data engineering — practice and experiments while I learn.
 
 ```
 data-engineering-studies/
-└── pipeline_dados_data/   # ETL pipeline practice (Jupyter Notebook)
+└── pipeline_dados_data/   # ETL pipeline practice 
 ```
