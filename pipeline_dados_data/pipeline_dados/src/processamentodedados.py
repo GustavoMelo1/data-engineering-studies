@@ -7,6 +7,7 @@ class Dados:
         self.path = path
         self.tipo_dados = tipo_dados
         self.dados = self.leitura_dados()
+        self.nome_colunas = self.get_columns()
     
     def leitura_json(self):
         dados_json = []
@@ -34,4 +35,18 @@ class Dados:
             dados = self.leitura_json()
 
         return dados
+    
+    def get_columns(self):
+        return list(self.dados[-1].keys())
 
+    def rename_columns(self, key_mapping):
+        new_dados = []
+
+        for old_dict in self.dados:
+            dict_temp = {}
+            for old_key, value in old_dict.items():
+                dict_temp[key_mapping[old_key]] = value
+            new_dados.append(dict_temp)
+        
+        self.dados = new_dados 
+        self.nome_colunas = self.get_columns()
