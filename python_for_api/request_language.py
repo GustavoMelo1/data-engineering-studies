@@ -1,6 +1,7 @@
 import os
 import requests
 import pandas as pd
+import base64
 
 # exploracao inicial
 # r = requests.get('https://api.github.com/events')
@@ -64,3 +65,46 @@ dados_amz['language'] = repos_language
 print(dados_amz)
 
 dados_amz.to_csv('amazon.csv')
+
+# #Criando um repostirio com post
+
+# api_base_url = 'https://api.github.com'
+# url = f'{api_base_url}/users/repos'
+
+# print(url)
+
+# #Criando um dicionario
+
+# data = {
+#     'name': 'Linguagen-Utilizadas',
+#     'description': 'Repositorio com as linguagens da amz',
+#     'private': False
+# }
+
+# response = requests.post(url, json=data, headers=headers)
+# response.status_code
+
+# #Formatando o Arquivo para leitura com a lib "base64"
+# with open('amazon.csv', 'rb')as file:
+#     content = file.read()
+
+# enconded = base64.b64encode(content)
+
+# #Fazendo Upload dos arquivos 
+# api_base_url = 'https://api.github.com'
+# username = 'GustavoMelo1'
+# repo = 'linguagens-utilizadas'
+# path = 'amazon.csv'
+
+# url = f'{api_base_url}/repos/{username}/{repo}/contents/{path}'
+# print(url)
+
+# #Informacoes do Upload
+# data = {
+#     'message': 'Adicionando a mensagem de commit',
+#     'content': enconded.decode('utf-8')  # base64, nao o binario cru
+# }
+
+# #requisicao do tipo PUT
+# response = requests.put(url, json=data, headers=headers)
+# response.status_code
