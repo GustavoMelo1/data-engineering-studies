@@ -21,52 +21,52 @@ import base64
 
 # token nunca direto no codigo, vem de variavel de ambiente
 token = os.environ.get('GITHUB_TOKEN')
-headers = {'Authorization': 'Bearer ' + token, 'X-GitHub-Api-Version': '2022-11-28'}
+cabecalho = {'Authorization': 'Bearer ' + token, 'X-GitHub-Api-Version': '2022-11-28'}
 
-api_base_url = 'https://api.github.com'
-owner = 'amzn'
-url = f'{api_base_url}/users/{owner}/repos'
+url_base = 'https://api.github.com'
+dono = 'amzn'
+url = f'{url_base}/users/{dono}/repos'
 
-response = requests.get(url, headers=headers)
-print(response.status_code)
+resposta = requests.get(url, headers=cabecalho)
+print(resposta.status_code)
 
-repos_list = []
-page_num = 1
+lista_repos = []
+num_pagina = 1
 
 # api manda 30 por vez, while True pede pagina por pagina ate vir vazia
 while True:
     try:
-        url_page = f'{url}?page={page_num}'
-        response = requests.get(url_page, headers=headers)
-        page_data = response.json()
+        url_pagina = f'{url}?page={num_pagina}'
+        resposta = requests.get(url_pagina, headers=cabecalho)
+        dados_pagina = resposta.json()
 
-        if len(page_data) == 0:
+        if len(dados_pagina) == 0:
             break
 
-        repos_list.extend(page_data)
-        page_num += 1
+        lista_repos.extend(dados_pagina)
+        num_pagina += 1
     except Exception:
         break
 
-print(f'{len(repos_list)} repositorios encontrados')
+print(f'{len(lista_repos)} repositorios encontrados')
 
-repos_name = []
-for repo in repos_list:
-    repos_name.append(repo["name"])
+nomes = []
+for repositorio in lista_repos:
+    nomes.append(repositorio["name"])
 
-repos_language = []
-for repo in repos_list:
-    repos_language.append(repo["language"])
+linguagens = []
+for repositorio in lista_repos:
+    linguagens.append(repositorio["language"])
 
 dados_amz = pd.DataFrame()
-dados_amz['repository_name'] = repos_name
-dados_amz['language'] = repos_language
+dados_amz['repository_name'] = nomes
+dados_amz['language'] = linguagens
 
 print(dados_amz)
 
 dados_amz.to_csv('amazon.csv')
 
-# #Criando um repostirio com post
+# #Criando um repositorio com post
 
 # api_base_url = 'https://api.github.com'
 # url = f'{api_base_url}/users/repos'
