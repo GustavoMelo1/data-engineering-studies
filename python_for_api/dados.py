@@ -9,8 +9,13 @@ class DadosRepositorios:
         self.owner = owner
         self.api_base_url = 'https://api.github.com'
         self.access_token = os.environ.get('GITHUB_TOKEN')
-        self.headers = {'Authorization': 'Bearer ' + self.access_token,
-                        'X-GitHub-Api-Version': '2022-11-28'}
+
+        self.headers = {
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+
+        if self.access_token is not None:
+            self.headers['Authorization'] = 'Bearer ' + self.access_token
 
     def lista_repositorios(self):
         """percorre ate 20 paginas, suficiente pra qualquer conta que vou usar."""
@@ -36,6 +41,7 @@ class DadosRepositorios:
         return repo_names
 
     def nomes_linguagens(self, repos_list):
+        """extrai os nomes das linguagens dos repositorios"""
         repo_languages = []
         for page in repos_list:
             for repo in page:
@@ -56,3 +62,19 @@ class DadosRepositorios:
         dados['language'] = linguagens
 
         return dados
+
+#"Roubando" dados dos repositorios
+amazon_rep = DadosRepositorios(owner='amzn')
+linguagens_mais_usadas_amzn = amazon_rep.cria_df_linguagens()
+print(linguagens_mais_usadas_amzn)
+
+netflix_rep = DadosRepositorios(owner='netflix')
+linguagens_mais_usadas_netflix = netflix_rep.cria_df_linguagens()
+print(linguagens_mais_usadas_netflix)
+
+#Salvando os dados dos repositorios
+
+os.makedirs('dados', exist_ok=True)
+
+linguagens_mais_usadas_amzn.to_csv('dados/linguagens_amzn.csv',index=True)
+linguagens_mais_usadas_netflix.to_csv('dados/linguagens_netflix.csv',index=True)
